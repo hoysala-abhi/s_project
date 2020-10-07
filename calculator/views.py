@@ -60,6 +60,4 @@ def email_confirmation(request):
   return HttpResponse('email test')
 
 
-
-
-
+#git test
