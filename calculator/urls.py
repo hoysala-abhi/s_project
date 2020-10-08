@@ -7,7 +7,6 @@ urlpatterns = [
     path ('add', views.add, name = 'add'),
     path ('multiply', views.multiply, name = 'multiply'),
     path('tes_page', views.test_page, name = 'tester'),
-    path('GM',views.wish),
     path('signup',views.signup, name='signup'),
-    path('email', views.email_confirmation, name='email')
+    path('email_confirmation', views.email_confirmation, name='email')
     ]

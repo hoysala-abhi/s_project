@@ -1,9 +1,13 @@
 from django.db import models
 
-# Create your models here.
-class employees(models.Model):
+class signup_users(models.Model):
     username = models.CharField(max_length=20,default='')
     name = models.CharField(max_length=20)
     mobile = models.CharField(max_length=20)
-    salary = models.IntegerField()
-    Is_Permanent = models.BooleanField()
+    email = models.EmailField()
+    password= models.CharField(max_length=20)
+
+class otp_data(models.Model):
+    email = models.EmailField()
+    OTP = models.IntegerField()
+
