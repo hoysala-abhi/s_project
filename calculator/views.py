@@ -76,7 +76,7 @@ def email_confirmation(request):
     else:
         return render(request, 'email_confirmation.html')
 
-    # Error : if verified user is already true and if you are entering OTP , its getting an error
+    # Error : if verified user is already true and if you are entering OTP , its getting an error+test
     
 def db_change_trial(request):
     a= signup_users.objects.get(name='aaa')
