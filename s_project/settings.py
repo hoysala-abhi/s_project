@@ -82,10 +82,17 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'my_db',
+<<<<<<< HEAD
         'USER' : 'postgres',
         'PASSWORD' : '1234',
         'HOST' : 'localhost'
         
+=======
+        'USER': 'postgres',
+        'PASSWORD' : '1234',
+        'HOST' : 'localhost'
+
+>>>>>>> refs/remotes/calculator_remote/master
     }
 }
 
