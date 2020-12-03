@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<form action="email_confirmation" method = "POST">
+   {% csrf_token %}
+    Please enter your Email here : <input type = "email" name ="email"> <br>
+    Please enter your Verification code here : <input type = "text" name ="OTP"> <br>
+    <input type = "submit">
+
+    </form>
+
+</body>
+</html>
