@@ -2,7 +2,7 @@ from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.core.mail import send_mail
-from calculator.models import signup_users, otp_data
+from calculator.models import extended, otp_data
 from s_project import settings
 from django.conf import settings
 from django.utils.crypto import get_random_string
@@ -22,20 +22,22 @@ def signup(request):
     otp_gen = get_random_string(length=4, allowed_chars='1234567890')
     if request.method == 'POST':
         username = request.POST['username']
-        name = request.POST['name']
+        first_name = request.POST['name']
         mobile = request.POST['mobile']
         email = request.POST['email']
         password = request.POST['password']
+        city = request.POST['city']
         otp_object = otp_gen
 
-        x = signup_users(username=username, name=name, mobile=mobile,email=email, password=password,otp=otp_object)
-        x.save()
-        y = otp_data(email=email, OTP=otp_gen)
+        x = User.objects.create_user(username=username, first_name=first_name, email=email, password=password)
+        y = otp_data(email=email, username=username, OTP=otp_object)
         y.save()
+        z= extended(mobile=mobile,city=city)
+        z.save()
 
         # # email_part - working fine
         subject = 'Verify your Email'
-        message = 'Hello  ' + x.name + ' This is a verification Email' + 'Your OTP is ' + otp_gen
+        message = 'Hello  ' + x.username + ' This is a verification Email' + 'Your OTP is ' + otp_gen
         email_from = settings.EMAIL_HOST_USER
         recipient_list = [x.email]
         send_mail(subject, message, email_from, recipient_list)
@@ -50,33 +52,26 @@ def email_confirmation(request):
         email = request.POST.get('email')
         cust_ent_otp = request.POST.get('OTP')
 
-        queried_otp = signup_users.objects.filter(email=email).latest('email') # this will pick the whole row from DB where email = queried OTP
+        queried_otp = otp_data.objects.filter(email=email).latest('email') # this will pick the whole row from DB where email = queried OTP
         #if y.OTP == queried_otp:
             #y.verified_user = True
-        otp_gen=str(queried_otp.otp) # this will pick up the column from the queried_otp object. 0 th line is 1st line
+        otp_gen=str(queried_otp.OTP) # this will pick up the column from the queried_otp object. 0 th line is 1st line
 
         if otp_gen == None:
             # raise exception
-            return HttpResponse("No email found")
+            return HttpResponse("No username found")
         if otp_gen != cust_ent_otp:
             return HttpResponse("OTP didnt match ")
         if otp_gen == cust_ent_otp:
-            a= signup_users.objects.filter(email=email)[0] # Filter() is used instead of get() because get gets only 1 
+            a= User.objects.filter(email=email)[0] # Filter() is used instead of get() because get gets only 1 
                                                             # Number should be equal to otp_gen.
-            a.verified_user=True
+            a.is_active=False
             a.save()
-
-        return HttpResponse("OTP Stored in DB along with EMail ")
+        return HttpResponse("Registration successful")
     else:
         return render(request, 'email_confirmation.html')
 
     # Error : if verified user is already true and if you are entering OTP , its getting an error+test
     
-def db_change_trial(request):
-    a= signup_users.objects.get(name='aaa')
-    a.name="bbb"
-    a.save()
-    return HttpResponse('TABLE ALTERED')
-
 def testapp(request):
   return HttpResponse('teeee')

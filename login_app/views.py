@@ -1,6 +1,7 @@
 from django.contrib import auth
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
+from django.contrib.auth.models import User, auth
 
 
 # Create your views here.
@@ -14,7 +15,7 @@ def login(request):
         auth.login(request,y)
         return redirect('/')
       else:
-        return redirect('login')
+        return render(request, 'auth_failed.html')
 
     else:
       return render(request, 'login_page.html', {'login': 'http://127.0.0.1:8000/login'})
