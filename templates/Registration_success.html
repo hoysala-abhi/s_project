@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>LOGIN PAGE</title>
+</head>
+<body>
+
+<h1>Registration successful !</h1> <br> <br>
+<h2>Login Below using credentials</h2>
+<br><br>
+<form action="http://127.0.0.1:8000/login_app/login" method="post">
+    {% csrf_token %}
+    User name : <input type="text" name ='username'> <br>
+    Password :  <input type = "password" name  = 'password'> <br>
+    <input type="submit">
+</form>
+
+
+</body>
+</html>

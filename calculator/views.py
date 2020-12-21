@@ -29,10 +29,10 @@ def signup(request):
         city = request.POST['city']
         otp_object = otp_gen
 
-        x = User.objects.create_user(username=username, first_name=first_name, email=email, password=password)
+        x = User.objects.create_user(username=username, first_name=first_name, email=email, password=password,is_active=True)
         y = otp_data(email=email, username=username, OTP=otp_object)
         y.save()
-        z= extended(mobile=mobile,city=city)
+        z= extended(username=username,mobile=mobile,city=city)
         z.save()
 
         # # email_part - working fine
@@ -49,10 +49,10 @@ def signup(request):
 
 def email_confirmation(request):
     if request.method == 'POST':
-        email = request.POST.get('email')
+        username = request.POST.get('username')
         cust_ent_otp = request.POST.get('OTP')
 
-        queried_otp = otp_data.objects.filter(email=email).latest('email') # this will pick the whole row from DB where email = queried OTP
+        queried_otp = otp_data.objects.filter(username=username).latest('username') # this will pick the whole row from DB where email = queried OTP
         #if y.OTP == queried_otp:
             #y.verified_user = True
         otp_gen=str(queried_otp.OTP) # this will pick up the column from the queried_otp object. 0 th line is 1st line
@@ -63,11 +63,12 @@ def email_confirmation(request):
         if otp_gen != cust_ent_otp:
             return HttpResponse("OTP didnt match ")
         if otp_gen == cust_ent_otp:
-            a= User.objects.filter(email=email)[0] # Filter() is used instead of get() because get gets only 1 
+            a= User.objects.filter(username=username)[0] # Filter() is used instead of get() because get gets only 1 
                                                             # Number should be equal to otp_gen.
-            a.is_active=False
+            a.is_active=True
             a.save()
-        return HttpResponse("Registration successful")
+        #return render(request, 'login_page.html', {'login': 'http://127.0.0.1:8000/login'})
+        return render(request, 'Registration_success.html', {'login': 'http://127.0.0.1:8000/login'})
     else:
         return render(request, 'email_confirmation.html')
 
