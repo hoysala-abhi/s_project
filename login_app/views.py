@@ -24,7 +24,6 @@ def login(request):
       #return render(request, 'auth_failed.html')
       return render(request, 'login_page.html', {'login': 'http://127.0.0.1:8000/login'}) # use full address when in diff app
 
-
 @login_required(login_url='/login_app/login/')  # Decorator : add condition for below function.#logged in user is saved in the cache
 def showdata(request):      #this is to show the data of the logged-in user. 
     #datas = extended.objects.filter(username=request.username)
@@ -33,4 +32,4 @@ def showdata(request):      #this is to show the data of the logged-in user.
 
 def logout(request):
     auth.logout(request)
-    return redirect('/')
+    return redirect('/') 

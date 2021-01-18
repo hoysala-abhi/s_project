@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>LOGIN PAGE</title>
+</head>
+<body>
+
+Enter your price here:
+<br><br><br><br>
+<form action="price_input" method="post">
+    {% csrf_token %}
+    Price today: <input type="text" name ='price_input_html'> <br>
+    <input type="submit">
+</form>
+
+
+</body>
+</html>

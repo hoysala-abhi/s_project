@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     'calculator.apps.CalculatorConfig',
     'login_app.apps.LoginAppConfig',
     'testapp.apps.TestappConfig',
+    'venu.apps.VenuConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -134,3 +135,7 @@ EMAIL_HOST_PASSWORD = 'opopop2121!'
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR,'static')
+]
+STATIC_ROOT = os.path.join(BASE_DIR,'assets')
